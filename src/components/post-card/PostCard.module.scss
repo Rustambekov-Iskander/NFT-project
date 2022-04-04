@@ -1,0 +1,94 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    width: 305px;
+    height: 482px;
+    box-shadow: 0px 10px 14px 0px #00000012;
+    margin: 16px;
+
+    @media (max-width: 500px) {
+        &{
+          margin: 8px 0px;
+        }
+      }
+    &__imgGroup {
+        position: relative;
+        
+        .imgGroup {
+            &__img {
+                width: 305px;
+                height: 404px;
+                border-radius: 8px 8px 0px 0px;
+            }
+
+            &__creatorAndTitle {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                transition: 0.7s;
+                &:hover {
+                    transition: 0.7s;
+                    background-color: rgba(0, 0, 0, 0.5);
+                }
+            }
+
+            &__creator {
+                margin: 16px;
+                font-size: 12px;
+                font-weight: 400;
+                line-height: 24px;
+                color: #F3F3F3;
+
+                .creator{
+                    font-size: 14px;
+                    font-weight: 700;
+                    line-height: 24px;
+                    color: #FFFFFF;
+                }
+            }
+
+            &__title {
+                margin: 16px;
+                font-size: 18px;
+                font-weight: 400;
+                line-height: 24px;
+                color: #FFFFFF;
+            }
+        }
+
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: space-between;
+        margin: 10px 16px;
+
+        .footer {
+            &__available, &__price{
+                font-size: 12px;
+                color: #808080;
+                font-weight: 400;
+                line-height: 24px;
+
+                .available {
+                    font-size: 16px;
+                    font-weight: 600;
+                    line-height: 24px;
+                    color: #000000;
+                }
+
+                .price {
+                    font-size: 16px;
+                    font-weight: 600;
+                    line-height: 24px;
+                    color: #0040E5;
+                }
+            }
+
+        }
+    }
+}

@@ -1,0 +1,19 @@
+body {
+  padding: 0px;
+  margin: 0px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+.content {
+  padding: 32px;
+
+  @media (max-width: 500px) {
+    &{
+      padding: 16px 14px;
+    }
+  }
+}
