@@ -1,23 +1,42 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import PostCard from "../../components/post-card/PostCard";
-import { Product, ProductItem } from "../../types/Product";
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  Dispatch,
+  SetStateAction,
+} from "react";
+import Loading from "../../components/loading/Loading";
+import ProductList from "../../components/ProductList";
+import Select from "../../components/UI/select/Select";
+import { ProductItem } from "../../types/Product";
 import cl from "./Home.module.scss";
 
 const Home = () => {
   const [products, setProducts] = useState<ProductItem[] | null>(null);
-  const [sort, setSort] = useState<"all" | "priceFrom" | "priceTo">("all");
-  const [available, setAvailable] = useState<"all" | "availible">("all");
+  const [sort, setSort] = useState<"all" | "priceHigh" | "priceLow">("all");
+  const [available, setAvailable] = useState<"all" | "available">("all");
+  const optionsRef = useRef([
+    { value: "all", name: "all" },
+    { value: "priceHigh", name: "price High" },
+    { value: "priceLow", name: "price Low" },
+  ]);
 
   useEffect(() => {
-    (async () => {
-      const res: any = await axios.get("https://artisant.io/api/products");
-      setProducts(res.data.data.products);
-    })();
-  }, []);
+    if (sort === "all") {
+      fetchProducts(setProducts);
+    }
+  }, [sort]);
+
+  const fetchProducts = async (
+    setState: Dispatch<SetStateAction<ProductItem[] | null>>
+  ): Promise<void> => {
+    const res = await axios.get(`${process.env.REACT_APP_PUBLIC_API}products`);
+    setProducts(res.data.data.products.slice(0, 8));
+  };
 
   if (!products) {
-    return <h1>loading</h1>;
+    return <Loading />;
   }
 
   return (
@@ -29,33 +48,27 @@ const Home = () => {
         </div>
       </div>
 
-      <div className={cl.home__posts}>
-        {products
-          .slice(0, 50)
-          .sort((a: ProductItem, b: ProductItem): any => {
-            if (sort === "priceFrom") {
-              if (a.initial_price < b.initial_price) {
-                return 1;
-              }
-              if (a.initial_price > b.initial_price) {
-                return -1;
-              }
-            } else if (sort === "priceTo") {
-              if (a.initial_price < b.initial_price) {
-                return -1;
-              }
-              if (a.initial_price > b.initial_price) {
-                return 1;
-              }
+      <div className={cl.home__filter}>
+        <div>
+          Only available{" "}
+          <input
+            onChange={() =>
+              setAvailable(available === "all" ? "available" : "all")
             }
-            return 0;
-          })
-          .filter((product) =>
-            available === "availible" ? !!product.quantity_available : true
-          )
-          .map((product: ProductItem) => (
-            <PostCard key={product.product_id} productData={product} />
-          ))}
+            className={cl.home__checkbox}
+            type="checkbox"
+          />
+        </div>
+
+        <Select
+          defaultValue="Sordet by"
+          options={optionsRef.current}
+          onChange={(selectedSort) => setSort(selectedSort)}
+        />
+      </div>
+
+      <div className={cl.home__posts}>
+        <ProductList products={products} sort={sort} available={available} />
       </div>
     </div>
   );

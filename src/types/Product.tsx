@@ -3,10 +3,12 @@ interface IAvatar {
   compressed : string
 }
 
+
 interface INftData {
     name: string;
     image: string;
     description: string;
+    external_url: string
 }
 
 interface ICreator {
@@ -35,37 +37,3 @@ export interface ProductItem {
   quantity_available: number;
 }
 
-export interface Product {
-  product: ProductItem;
-}
-
-export interface PostState {
-  posts: any[];
-  loading: boolean;
-  error: null | string;
-}
-
-export enum PostActionTypes {
-  FETCH_POSTS = "FETCH_POSTS",
-  FETCH_POSTS_SUCCES = "FETCH_POSTS_SUCCES",
-  FETCH_POSTS_ERROR = "FETCH_POSTS_ERROR",
-}
-
-interface FetchPostsAction {
-  type: PostActionTypes.FETCH_POSTS;
-}
-
-interface FetchPostsSuccesAction {
-  type: PostActionTypes.FETCH_POSTS_SUCCES;
-  payload: any[];
-}
-
-interface FetchPostsErrorAction {
-  type: PostActionTypes.FETCH_POSTS_ERROR;
-  payload: string;
-}
-
-export type PostAction =
-  | FetchPostsAction
-  | FetchPostsSuccesAction
-  | FetchPostsErrorAction;
